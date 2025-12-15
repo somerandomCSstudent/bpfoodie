@@ -8,7 +8,9 @@
 		"preview": "vite preview"
 	},
 	"dependencies": {
-		"preact": "^10.26.9"
+		"preact": "^10.26.9",
+		"react-icons": "^5.5.0",
+		"react-router-dom": "^7.10.1"
 	},
 	"devDependencies": {
 		"@preact/preset-vite": "^2.10.2",

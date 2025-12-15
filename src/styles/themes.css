@@ -1,0 +1,37 @@
+/* Variable declarations for light mode (default) */
+:root {
+    --color-background: #ffffff;
+    --color-text: #333333;
+    --color-primary: #007bff;
+    --color-secondary: #6c757d;
+    --color-card-bg: #f8f9fa;
+    --color-border: #dee2e6;
+}
+
+/* Selector for dark mode applied via ThemeProvider in ThemeContext.tsx */
+body.dark-mode {
+    --color-background: #121212;
+    --color-text: #e0e0e0;
+    --color-primary: #bb86fc; 
+    --color-secondary: #999999;
+    --color-card-bg: #1e1e1e;
+    --color-border: #333333;
+}
+
+/* Apply variables */
+body {
+    background-color: var(--color-background);
+    color: var(--color-text);
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.button-primary {
+    background-color: var(--color-primary);
+    color: var(--color-background); /* Text color should contrast with background */
+    border: 1px solid var(--color-primary);
+}
+
+.card {
+    background-color: var(--color-card-bg);
+    border: 1px solid var(--color-border);
+}

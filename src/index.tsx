@@ -1,43 +1,30 @@
-import { render } from 'preact';
+import React from 'react';
+import { createRoot } from 'react-dom/client';
+import App from './App';
+import './styles/index.css'; 
+import { AuthProvider } from './context/AuthContext';
+import { ThemeProvider } from './context/ThemeContext';
 
-import preactLogo from './assets/preact.svg';
-import './style.css';
+// 1. Megkeressük a DOM elemét, amelybe a React alkalmazást be akarjuk fűzni.
+// Standard React projektekben ez általában a <div id="root"></div> a public/index.html-ben.
+const container = document.getElementById('root');
 
-export function App() {
-	return (
-		<div>
-			<a href="https://preactjs.com" target="_blank">
-				<img src={preactLogo} alt="Preact logo" height="160" width="160" />
-			</a>
-			<h1>Get Started building Vite-powered Preact Apps </h1>
-			<section>
-				<Resource
-					title="Learn Preact"
-					description="If you're new to Preact, try the interactive tutorial to learn important concepts"
-					href="https://preactjs.com/tutorial"
-				/>
-				<Resource
-					title="Differences to React"
-					description="If you're coming from React, you may want to check out our docs to see where Preact differs"
-					href="https://preactjs.com/guide/v10/differences-to-react"
-				/>
-				<Resource
-					title="Learn Vite"
-					description="To learn more about Vite and how you can customize it to fit your needs, take a look at their excellent documentation"
-					href="https://vitejs.dev"
-				/>
-			</section>
-		</div>
-	);
+if (!container) {
+    throw new Error('Failed to find the root element in the document (id="root")');
 }
 
-function Resource(props) {
-	return (
-		<a href={props.href} target="_blank" class="resource">
-			<h2>{props.title}</h2>
-			<p>{props.description}</p>
-		</a>
-	);
-}
+let root = createRoot(container);
 
-render(<App />, document.getElementById('app'));
+// 3. Rendereljük a fő App komponenst, beburkolva a szükséges Context Provider-ekkel.
+// A BrowserRouter itt van a legkülső ponton, hogy az összes útvonal (Routes) működjön.
+root.render(
+  <React.StrictMode>
+    <ThemeProvider>
+      {/* AuthProvider: Szolgáltatja a bejelentkezési (user) állapotot */}
+      <AuthProvider>
+        {/* App: A tényleges útvonalakat és a tartalom elrendezését kezeli */}
+        <App />
+      </AuthProvider>
+    </ThemeProvider>
+  </React.StrictMode>
+);
