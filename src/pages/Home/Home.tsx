@@ -2,7 +2,6 @@ import { useState, useMemo, useCallback } from "preact/hooks";
 import { useAuth } from "../../contexts/AuthContext";
 import styles from "./Home.module.css";
 import { INewReview, IReview } from "../../types/review";
-// Import RestaurantType for filtering
 import { IRestaurant, INewRestaurantData, IRestaurantOption, RestaurantType } from "../../types/restaurant"; 
 import { mockRestaurants } from "../../data/mockRestaurants";
 import { initialReviews } from "../../data/mockReviews";
@@ -36,8 +35,6 @@ const Home: React.FC = () => {
   // Find the currently selected restaurant object from the state
   const selectedRestaurant = restaurants.find(r => r.id === selectedRestaurantId);
 
-  
-  // >>>>>>>>>>>>>> JS API #1: Audio API bevezetése <<<<<<<<<<<<<<<<
   // Helper function to create and play a sound using the Web Audio API
   const playSound = useCallback((frequency: number, duration: number, type: OscillatorType, startGain: number, endGain: number) => {
     const AudioContext = window.AudioContext || (window as any).webkitAudioContext;
@@ -95,10 +92,7 @@ const Home: React.FC = () => {
     setSelectedType(newRestaurantData.type); 
   }, [restaurants.length]);
 
-
- 
   // Handles new review submissions and updates the state.
-  
   const handleReviewSubmit = useCallback((newReview: INewReview) => {
     if (!currentUser) return;
     
@@ -115,7 +109,7 @@ const Home: React.FC = () => {
   }, [currentUser]);
   
   
-  // MEMOIZED: Filter restaurants based on the selected type
+  // Filter restaurants based on the selected type
   const filteredRestaurants = useMemo(() => {
     if (selectedType === 'All') {
       return restaurants;
@@ -144,7 +138,6 @@ const Home: React.FC = () => {
       setSelectedRestaurantId(restaurantsInNewType.length > 0 ? restaurantsInNewType[0].id : '');
     }
   };
-
 
    // Creates restaurant options for the dropdown. Memoized for performance.
   const restaurantOptions: IRestaurantOption[] = useMemo(() => {
