@@ -1,5 +1,3 @@
-/* src/components/Common/Header/Header.module.css */
-
 .header {
   display: flex;
   justify-content: space-between;
@@ -10,6 +8,14 @@
   position: sticky;
   top: 0;
   z-index: 100;
+}
+
+:global(.theme-dark) .header {
+    /* Sötét háttér */
+    background-color: rgba(10, 10, 10, 0.9); 
+    color: var(--color-text-dark-mode, #e0e0e0); /* A szöveg színe világos lesz */
+    /* Az árnyékot is módosítjuk sötét környezethez */
+    box-shadow: 0 2px 4px rgba(255, 255, 255, 0.2); 
 }
 
 .logo {

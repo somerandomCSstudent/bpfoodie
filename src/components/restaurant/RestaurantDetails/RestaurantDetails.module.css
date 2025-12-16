@@ -1,7 +1,5 @@
-/* src/components/Restaurant/RestaurantDetails/RestaurantDetails.module.css */
-
 .detailsContainer {
-  background-color: rgba(255, 255, 255, 0.9);
+  background-color: var(--color-box-background-light);
   padding: 30px;
   border-radius: 8px;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
@@ -10,6 +8,14 @@
   width: 100%;
   margin-left: auto;
   margin-right: auto;
+}
+
+:global(.theme-dark) .detailsContainer {
+    /* Sötét, enyhén áttetsző háttér */
+    background-color: rgba(30, 30, 30, 0.9); 
+    color: var(--color-text-dark-mode, #e0e0e0); /* Szöveg világosítása */
+    /* Az árnyék is világosabb legyen sötét alapon */
+    box-shadow: 0 4px 10px rgba(255, 255, 255, 0.1); 
 }
 
 .description {

@@ -19,7 +19,7 @@ const Dropdown: React.FC<DropdownProps> = ({ options, onSelect, selectedValue })
       onChange={handleChange} 
       value={selectedValue}
     >
-      <option value="" disabled>Válassz éttermet...</option>
+      <option value="" disabled>Choose a restaurant...</option>
       {options.map((option) => (
         <option key={option.id} value={option.id}>
           {option.name}

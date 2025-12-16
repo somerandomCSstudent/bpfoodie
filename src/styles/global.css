@@ -1,12 +1,12 @@
-/* src/styles/global.css */
 
-/* Alapértelmezett (világos) színek */
 :root {
-  --color-background-light: #aee284; /* Világos téma háttérszín */
-  --color-background-dark: #87ceeb; /* Sötét téma háttérszín (égkék) */
+  --color-background-light: #aee284; 
+  --color-background-dark: #1f4b5d; 
   --color-text-primary: #333;
   --color-text-secondary: #555;
-  --color-primary: #1976d2; /* Gombok, linkek színe */
+  --color-primary: #1976d2; 
+  --color-box-background-light: rgba(255, 255, 255, 0.9);
+  --color-box-background-dark: rgba(0, 0, 0, 0.3);
 }
 
 /* Fő stílus a body-ra */
@@ -17,16 +17,16 @@ body {
   min-height: 100vh; /* Kiterjeszti a háttérszínt a teljes magasságra */
 }
 
-/* Világos téma (alapértelmezett) */
+ /* default light-theme */
 body.theme-light {
   background-color: var(--color-background-light);
   color: var(--color-text-primary);
 }
 
-/* Sötét téma */
+/* dark-theme */
 body.theme-dark {
   background-color: var(--color-background-dark);
-  color: #fff; /* Fehér szöveg a sötét háttéren */
+  color: var(--color-text-dark-mode, #e0e0e0); /* Fehér szöveg a sötét háttéren */
 }
 
 /* Közös gomb stílus (Login/Register) */

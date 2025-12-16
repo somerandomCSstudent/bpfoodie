@@ -31,7 +31,7 @@ const mockRestaurants: IRestaurant[] = [
   { 
     id: 'r3', 
     name: 'Burger King', 
-    description: 'Gyorsétterem a gyors éhség csillapítására.', 
+    description: 'A második legismertebb amerikai gyorsétteremlánc világszerte.', 
     address: 'Budapest, Több helyen', 
     rating: 3.2, 
     reviewCount: 300,
@@ -68,7 +68,7 @@ const Home: React.FC = () => {
         {selectedRestaurant ? (
           <RestaurantDetails restaurant={selectedRestaurant} />
         ) : (
-          <p className={styles.placeholder}>Kérjük, válasszon egy éttermet a listából.</p>
+          <p className={styles.placeholder}>Please choose a restaurant from the list</p>
         )}
       </div>
     </>
