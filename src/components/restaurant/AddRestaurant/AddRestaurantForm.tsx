@@ -1,16 +1,28 @@
 import React, { useState } from 'react';
-import { INewRestaurantData } from '../../../types/restaurant';
+import { INewRestaurantData, RestaurantType } from '../../../types/restaurant'; 
 import styles from './AddRestaurantForm.module.css';
 /* Form component for adding a new restaurant */
 interface AddRestaurantFormProps {
   onSuccess: () => void;
   onSubmit: (data: INewRestaurantData) => void;
 }
+
+// Define the available options for the dropdown
+const RESTAURANT_TYPE_OPTIONS: RestaurantType[] = [
+    'Italian',
+    'East-Asian',
+    'American',
+    'South-American',
+    'Hungarian', 
+    'Other'
+];
+
 /* Functional component definition */
 const AddRestaurantForm: React.FC<AddRestaurantFormProps> = ({ onSuccess, onSubmit }) => {
   const [name, setName] = useState('');
   const [description, setDescription] = useState('');
   const [address, setAddress] = useState('');
+  const [type, setType] = useState<RestaurantType>('Other'); 
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState('');
 
@@ -27,7 +39,7 @@ const AddRestaurantForm: React.FC<AddRestaurantFormProps> = ({ onSuccess, onSubm
 
     // Simulate submission delay
     setTimeout(() => {
-      onSubmit({ name, description, address });
+      onSubmit({ name, description, address, type }); 
       setIsSubmitting(false);
       onSuccess(); // Close modal
     }, 800);
@@ -69,7 +81,22 @@ const AddRestaurantForm: React.FC<AddRestaurantFormProps> = ({ onSuccess, onSubm
           disabled={isSubmitting}
         />
       </div>
-      
+
+      {/* Restaurant Type Selection */}
+      <div className={styles.formGroup}>
+        <label htmlFor="type">Restaurant Type</label>
+        <select 
+          id="type"
+          value={type} 
+          onChange={(e) => setType((e.target as HTMLSelectElement).value as RestaurantType)} 
+          disabled={isSubmitting}
+        >
+          {RESTAURANT_TYPE_OPTIONS.map((option) => (
+            <option key={option} value={option}>{option}</option>
+          ))}
+        </select>
+      </div>
+
       <button type="submit" className="button-primary" disabled={isSubmitting}>
         {isSubmitting ? 'Adding...' : 'Add Restaurant'}
       </button>

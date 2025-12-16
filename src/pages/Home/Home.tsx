@@ -1,5 +1,3 @@
-// src/pages/Home/Home.tsx - REFACTORED
-
 import { useState, useMemo, useCallback } from "preact/hooks";
 import { useAuth } from "../../contexts/AuthContext";
 import styles from "./Home.module.css";
@@ -43,6 +41,7 @@ const Home: React.FC = () => {
         slug: newSlug,
         rating: 0,
         reviewCount: 0,
+        type: newRestaurantData.type, 
     };
 
     setRestaurants((prev) => [...prev, newRestaurant]);

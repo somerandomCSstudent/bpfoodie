@@ -1,6 +1,6 @@
 import React from 'react';
 import { ThemeProvider } from './contexts/ThemeContext';
-import { AuthProvider } from './contexts/AuthContext'; // Új
+import { AuthProvider } from './contexts/AuthContext'; 
 import Home from './pages/Home/Home';
 import './styles/global.css';
 // Main application component

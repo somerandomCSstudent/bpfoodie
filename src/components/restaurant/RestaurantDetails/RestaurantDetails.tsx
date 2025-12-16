@@ -1,5 +1,5 @@
 import React from 'react';
-import { IRestaurant } from '../../../types/restaurant';
+import { IRestaurant } from '../../../types/restaurant'; // Ensure IRestaurant includes 'type'
 import styles from './RestaurantDetails.module.css';
 /* Component to display detailed information about a restaurant */
 interface RestaurantDetailsProps {
@@ -22,6 +22,9 @@ const RestaurantDetails: React.FC<RestaurantDetailsProps> = ({ restaurant, avera
   return (
     <div className={styles.detailsContainer}>
       <h2>{restaurant.name}</h2>
+      
+      {/* Display restaurant type */}
+      <p><strong>Type:</strong> {restaurant.type}</p>
       <p className={styles.description}>{restaurant.description}</p>
       <p><strong>Address:</strong> {restaurant.address}</p>
       

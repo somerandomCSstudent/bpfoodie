@@ -13,8 +13,8 @@
 :global(.theme-dark) .header {
     /* dark background */
     background-color: rgba(10, 10, 10, 0.9); 
-    color: var(--color-text-dark-mode, #e0e0e0); /* A szöveg színe világos lesz */
-    /* Az árnyékot is módosítjuk sötét környezethez */
+    color: var(--color-text-dark-mode, #e0e0e0); /* text color in dark mode */
+    /* modified shadow */
     box-shadow: 0 2px 4px rgba(255, 255, 255, 0.2); 
 }
 
