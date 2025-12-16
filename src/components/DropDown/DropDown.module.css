@@ -1,0 +1,7 @@
+.dropdown {
+    padding: 10px 15px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    font-size: 1em;
+    cursor: pointer;
+}

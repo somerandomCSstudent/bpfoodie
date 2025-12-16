@@ -1,0 +1,17 @@
+/* src/pages/Home/Home.module.css */
+
+.homeContainer {
+    padding: 20px;
+    text-align: center;
+    min-height: calc(100vh - 80px); /* Fejléc magassága kb. 80px */
+}
+
+.dropdownWrapper {
+    margin-bottom: 30px;
+}
+
+.placeholder {
+    font-size: 1.1em;
+    color: var(--color-text-secondary);
+    margin-top: 50px;
+}

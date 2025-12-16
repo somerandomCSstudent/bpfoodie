@@ -1,0 +1,25 @@
+/* src/components/Restaurant/RestaurantDetails/RestaurantDetails.module.css */
+
+.detailsContainer {
+  background-color: rgba(255, 255, 255, 0.9);
+  padding: 30px;
+  border-radius: 8px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  margin-top: 20px;
+  max-width: 800px;
+  width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.description {
+  font-style: italic;
+  line-height: 1.5;
+  margin-bottom: 20px;
+}
+
+.rating {
+  font-size: 1.2em;
+  font-weight: bold;
+  color: #f5a623; /* Arany/narancs szín az értékeléshez */
+}

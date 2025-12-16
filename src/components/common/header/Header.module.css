@@ -1,0 +1,23 @@
+/* src/components/Common/Header/Header.module.css */
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 20px;
+  background-color: rgba(255, 255, 255, 0.8); /* Félátlátszó háttér a jobb láthatóságért */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.logo {
+  font-size: 1.8em;
+  margin: 0;
+}
+
+.leftControls, .rightControls {
+  display: flex;
+  align-items: center;
+}
