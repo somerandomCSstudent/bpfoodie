@@ -1,61 +1,59 @@
-import React, { useState } from 'react';
-import Header from '../../components/common/header/Header';
-import Dropdown from '../../components/DropDown/DropDown';
-import RestaurantDetails from '../../components/restaurant/RestaurantDetails/RestaurantDetails';
-import { IRestaurant, IRestaurantOption } from '../../types/restaurant';
-import styles from './Home.module.css';
-
-// MARK: - Mock Adatok (Később API hívás váltja fel)
-// ... rest of the file remains the same
-
-// MARK: - Mock Adatok (Később API hívás váltja fel)
-const mockRestaurants: IRestaurant[] = [
-  { 
-    id: 'r1', 
-    name: 'Gundel Étterem', 
-    description: 'Tradicionális magyar konyha, elegáns környezetben.', 
-    address: 'Budapest, Zugló', 
-    rating: 4.5, 
-    reviewCount: 150,
-    slug: 'gundel-etterem',
-  },
-  { 
-    id: 'r2', 
-    name: 'Costes', 
-    description: 'Michelin-csillagos fine dining élmény a belvárosban.', 
-    address: 'Budapest, Belváros', 
-    rating: 4.8, 
-    reviewCount: 90,
-    slug: 'costes',
-  },
-  { 
-    id: 'r3', 
-    name: 'Burger King', 
-    description: 'A második legismertebb amerikai gyorsétteremlánc világszerte.', 
-    address: 'Budapest, Több helyen', 
-    rating: 3.2, 
-    reviewCount: 300,
-    slug: 'burger-king',
-  },
-];
-
-const restaurantOptions: IRestaurantOption[] = mockRestaurants.map(r => ({ id: r.id, name: r.name }));
-
+import { useState } from "preact/hooks";
+import { useAuth } from "../../contexts/AuthContext";
+import styles from "./Home.module.css";
+import { INewReview, IReview } from "../../types/review";
+import { IRestaurant } from "../../types/restaurant";
+import { mockRestaurants } from "../../data/mockRestaurants";
+import { initialReviews } from "../../data/mockReviews";
+import Dropdown from "../../components/DropDown/DropDown";
+import RestaurantDetails from "../../components/restaurant/RestaurantDetails/RestaurantDetails";
+import ReviewSection from "../../components/restaurant/ReviewSection/ReviewSection";
+import Header from "../../components/common/header/Header";
 
 const Home: React.FC = () => {
+  const { currentUser } = useAuth(); // NEW: Get current user
   const [selectedRestaurantId, setSelectedRestaurantId] = useState<string>('');
+  const [reviews, setReviews] = useState<IReview[]>(initialReviews); 
   
   const selectedRestaurant = mockRestaurants.find(r => r.id === selectedRestaurantId);
+
+  // ... (handleReviewSubmit és calculateAverageRating functions) ...
+
+  const handleReviewSubmit = (newReview: INewReview) => {
+    if (!currentUser) return; 
+    // ... (rest of handleReviewSubmit) ...
+  };
+
+  const calculateAverageRating = (restaurantId: string) => {
+    const restaurantReviews = reviews.filter(r => r.restaurantId === restaurantId);
+    if (restaurantReviews.length === 0) {
+      return { rating: 0, count: 0 };
+    }
+    const averageRating = restaurantReviews.reduce((sum, r) => sum + r.rating, 0) / restaurantReviews.length;
+    return { rating: averageRating, count: restaurantReviews.length };
+  };
 
   const handleRestaurantSelect = (id: string) => {
     setSelectedRestaurantId(id);
   };
 
+  // Create restaurant options for dropdown
+  const restaurantOptions = mockRestaurants.map(restaurant => ({
+    id: restaurant.id,
+    name: restaurant.name
+  }));
+
+  // Get current restaurant details + calculated stats
+  const currentStats = selectedRestaurant 
+    ? calculateAverageRating(selectedRestaurant.id) 
+    : { rating: 0, count: 0 };
+
+
   return (
     <>
       <Header />
       <div className={styles.homeContainer}>
-        {/* Étterem legördülő menü */}
+        {/* Dropdown */}
         <div className={styles.dropdownWrapper}>
             <Dropdown 
               options={restaurantOptions} 
@@ -64,11 +62,25 @@ const Home: React.FC = () => {
             />
         </div>
 
-        {/* Kiválasztott étterem adatainak megjelenítése */}
+        {/* Restaurant Details and Reviews */}
         {selectedRestaurant ? (
-          <RestaurantDetails restaurant={selectedRestaurant} />
+          <>
+            <RestaurantDetails 
+              restaurant={selectedRestaurant}
+              averageRating={currentStats.rating} // Pass average rating
+              reviewCount={currentStats.count}    // Pass review count
+            />
+            
+            <div className={styles.reviewSectionWrapper}>
+              <ReviewSection 
+                restaurantId={selectedRestaurant.id}
+                reviews={reviews}
+                onSubmitReview={handleReviewSubmit}
+              />
+            </div>
+          </>
         ) : (
-          <p className={styles.placeholder}>Please choose a restaurant from the list</p>
+          <p className={styles.placeholder}>Please select a restaurant from the list.</p>
         )}
       </div>
     </>

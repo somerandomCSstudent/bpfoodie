@@ -1,13 +1,15 @@
 import React from 'react';
 import { ThemeProvider } from './contexts/ThemeContext';
+import { AuthProvider } from './contexts/AuthContext'; // Új
 import Home from './pages/Home/Home';
-import './styles/global.css'; // Globális stílusok importálása
+import './styles/global.css';
 
 const App: React.FC = () => {
   return (
-    // A ThemeProvider biztosítja a téma állapotát az egész alkalmazás számára
     <ThemeProvider>
-      <Home />
+      <AuthProvider> {/* Wrap the application with AuthProvider */}
+        <Home />
+      </AuthProvider>
     </ThemeProvider>
   );
 };

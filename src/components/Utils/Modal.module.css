@@ -1,0 +1,88 @@
+:root {
+  /* Világos téma alapértékek */
+  --modal-bg-light: #ffffff;
+  --modal-text-light: #333333;
+  --modal-shadow-light: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+/* ------------------------------------------------------------------- */
+/* 1. MODAL OVERLAY (ÁRNYÉKOLT HÁTTÉR) */
+/* ------------------------------------------------------------------- */
+.modalOverlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    /* Enyhe fekete áttetsző réteg */
+    background-color: rgba(0, 0, 0, 0.6); 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000; /* Biztosítja, hogy a legfelső réteg legyen */
+    backdrop-filter: blur(4px); /* Enyhe elmosás */
+}
+
+/* ------------------------------------------------------------------- */
+/* 2. MODAL CONTENT (AZ ABLAK TARTALMA) */
+/* ------------------------------------------------------------------- */
+.modalContent {
+    background-color: var(--modal-bg-light);
+    color: var(--modal-text-light);
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: var(--modal-shadow-light);
+    width: 90%;
+    max-width: 450px; /* Max szélesség az űrlapokhoz */
+    position: relative;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.title {
+    margin-top: 0;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 15px;
+    margin-bottom: 20px;
+}
+
+/* ------------------------------------------------------------------- */
+/* 3. CLOSE BUTTON (BEZÁRÓ GOMB) */
+/* ------------------------------------------------------------------- */
+.closeButton {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    background: none;
+    border: none;
+    font-size: 1.5em;
+    cursor: pointer;
+    color: var(--modal-text-light);
+    transition: color 0.3s;
+}
+
+.closeButton:hover {
+    color: #d9534f;
+}
+
+/* ------------------------------------------------------------------- */
+/* 4. SÖTÉT TÉMA FELÜLÍRÁSA (DARK MODE OVERRIDES) */
+/* ------------------------------------------------------------------- */
+
+/* A modális ablak tartalmának felülírása sötét témában */
+:global(.theme-dark) .modalContent {
+    background-color: #2b2b2b; /* Sötétebb háttér */
+    color: #e0e0e0; /* Világos szöveg */
+    box-shadow: 0 5px 15px rgba(255, 255, 255, 0.1); /* Világos árnyék */
+}
+
+:global(.theme-dark) .title {
+    border-bottom-color: #444444; /* Sötétebb vonal */
+}
+
+:global(.theme-dark) .closeButton {
+    color: #e0e0e0;
+}
+
+:global(.theme-dark) .closeButton:hover {
+    color: #ff5555;
+}

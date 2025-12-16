@@ -1,0 +1,132 @@
+/* src/components/Restaurant/ReviewSection/ReviewSection.module.css */
+
+/* --- Globális Téma Változók ---
+   (Ezeket a global.css-ben kell definiálni, itt csak használjuk őket) 
+*/
+:root {
+  /* Világos téma alapértékek */
+  --review-bg-light: #ffffff;
+  --review-text-light: #333333;
+  --review-shadow-light: 0 2px 5px rgba(0, 0, 0, 0.05);
+  --review-border-light: 1px solid #eeeeee;
+}
+
+/* ------------------------------------------------------------------- */
+/* 1. SECTION CONTAINER */
+/* ------------------------------------------------------------------- */
+.reviewSection {
+  max-width: 800px;
+  margin: 40px auto;
+  padding: 20px;
+}
+
+/* ------------------------------------------------------------------- */
+/* 2. REVIEW FORM (ŰRLAP) STÍLUSAI */
+/* ------------------------------------------------------------------- */
+.reviewForm {
+    background-color: var(--review-bg-light);
+    padding: 25px;
+    border-radius: 8px;
+    box-shadow: var(--review-shadow-light);
+    margin-bottom: 30px;
+    border: var(--review-border-light);
+}
+
+.formGroup {
+    margin-bottom: 15px;
+}
+
+.formGroup label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.reviewForm textarea,
+.reviewForm input[type="number"] {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box; /* Padding ne növelje a méretet */
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.ratingInput {
+    max-width: 80px; /* Csak az 1-5 számjegy elférjen */
+    text-align: center;
+}
+
+.errorText {
+    color: #d9534f;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+/* ------------------------------------------------------------------- */
+/* 3. REVIEW CARD (EGYEDI ÉRTÉKELÉSI KÁRTYA) STÍLUSAI */
+/* ------------------------------------------------------------------- */
+.reviewList {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.reviewCard {
+    background-color: var(--review-bg-light);
+    padding: 15px;
+    border-radius: 6px;
+    box-shadow: var(--review-shadow-light);
+    border: var(--review-border-light);
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.cardHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+    padding-bottom: 5px;
+    border-bottom: 1px solid #eee;
+}
+
+.ratingStars {
+    font-size: 1.2em;
+    color: #ffc107; /* Arany szín */
+}
+
+.username {
+    font-weight: bold;
+    font-size: 0.9em;
+}
+
+.comment {
+    margin: 5px 0 10px 0;
+    line-height: 1.4;
+}
+
+/* ------------------------------------------------------------------- */
+/* 4. SÖTÉT TÉMA FELÜLÍRÁSA (DARK MODE OVERRIDES) */
+/* ------------------------------------------------------------------- */
+
+/* A :global(.theme-dark) biztosítja, hogy a stílus csak akkor aktiválódjon, 
+   ha a globális body elemen rajta van a theme-dark osztály. */
+:global(.theme-dark) .reviewForm,
+:global(.theme-dark) .reviewCard {
+    background-color: rgba(50, 50, 50, 0.9); /* Sötétebb, elegáns háttér */
+    color: #e0e0e0; /* Világos szöveg */
+    border: 1px solid #444444; /* Sötét keret */
+    box-shadow: 0 2px 8px rgba(255, 255, 255, 0.1); /* Világos árnyék */
+}
+
+:global(.theme-dark) .reviewCard .cardHeader {
+    border-bottom-color: #555555;
+}
+
+/* Input és Textarea mezők sötét módban */
+:global(.theme-dark) .reviewForm textarea,
+:global(.theme-dark) .reviewForm input[type="number"] {
+    background-color: #3e3e3e;
+    color: #e0e0e0;
+    border-color: #555555;
+}
