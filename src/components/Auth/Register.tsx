@@ -13,8 +13,6 @@ const RegisterForm: React.FC<{ onSuccess: () => void }> = ({ onSuccess }) => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError('');
-    
-    // Ide lehetne extra ellenőrzést tenni a jelszó erősségére, vagy confirm password mezőre
 
     const result = await register(username, password); // <<< AUTH KONTEXTUS LOGIKÁJA
 

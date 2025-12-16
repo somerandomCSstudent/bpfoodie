@@ -17,7 +17,7 @@ const ReviewCard: React.FC<ReviewCardProps> = ({ review }) => {
     <div className={styles.reviewCard}>
       <div className={styles.cardHeader}>
         <span className={styles.ratingStars}>{renderRatingStars(review.rating)}</span>
-        <span className={styles.username}>Left by **{review.username}**</span>
+        <span className={styles.username}>Left by {review.username}</span>
       </div>
       <p className={styles.comment}>{review.comment}</p>
       <small>{new Date(review.createdAt).toLocaleDateString()}</small>

@@ -1,5 +1,3 @@
-// src/types/restaurant.ts
-
 /**
  * A Restaurant DTO (Data Transfer Object)
  */

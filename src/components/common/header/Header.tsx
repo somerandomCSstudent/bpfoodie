@@ -23,13 +23,13 @@ const Header: React.FC = () => {
         <ThemeToggle />
       </div>
       
-      <h1 className={styles.logo}>BPFoodie</h1> 
+      <h1 className={styles.logo}>BPFoodie🍽️🍹</h1> 
 
       <div className={styles.rightControls}>
         {currentUser ? (
           // Logged In State
           <div className={styles.loggedInStatus}>
-            <span>Logged in as **{currentUser.username}**</span>
+            <span>Logged in as {currentUser.username}</span>
             <button className="button-primary" onClick={logout}>
               Log out
             </button>

@@ -11,9 +11,9 @@
 }
 
 :global(.theme-dark) .detailsContainer {
-    /* Sötét, enyhén áttetsző háttér */
+    /* drak, slightly transparent background */
     background-color: rgba(30, 30, 30, 0.9); 
-    color: var(--color-text-dark-mode, #e0e0e0); /* Szöveg világosítása */
+    color: var(--color-text-dark-mode, #e0e0e0); /* light text */
     /* Az árnyék is világosabb legyen sötét alapon */
     box-shadow: 0 4px 10px rgba(255, 255, 255, 0.1); 
 }
@@ -27,5 +27,5 @@
 .rating {
   font-size: 1.2em;
   font-weight: bold;
-  color: #f5a623; /* Arany/narancs szín az értékeléshez */
+  color: #f5a623; /* orange for review */
 }

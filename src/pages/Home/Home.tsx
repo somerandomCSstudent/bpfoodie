@@ -17,13 +17,22 @@ const Home: React.FC = () => {
   
   const selectedRestaurant = mockRestaurants.find(r => r.id === selectedRestaurantId);
 
-  // ... (handleReviewSubmit és calculateAverageRating functions) ...
-
+  // handles new review submissions
   const handleReviewSubmit = (newReview: INewReview) => {
-    if (!currentUser) return; 
-    // ... (rest of handleReviewSubmit) ...
+  if (!currentUser) return;
+  
+  const completeReview: IReview = {
+    id: Date.now().toString(), // Generate unique ID
+    restaurantId: newReview.restaurantId,
+    username: currentUser.username,
+    rating: newReview.rating,
+    comment: newReview.comment,
+    createdAt: Date.now()
   };
-
+  
+  setReviews([...reviews, completeReview]);
+};
+  // calculate average rating and review count for a restaurant
   const calculateAverageRating = (restaurantId: string) => {
     const restaurantReviews = reviews.filter(r => r.restaurantId === restaurantId);
     if (restaurantReviews.length === 0) {

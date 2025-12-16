@@ -3,7 +3,7 @@
   justify-content: space-between;
   align-items: center;
   padding: 15px 20px;
-  background-color: rgba(255, 255, 255, 0.8); /* Félátlátszó háttér a jobb láthatóságért */
+  background-color: rgba(255, 255, 255, 0.8); /* transparent backround for better visibility */
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   position: sticky;
   top: 0;
@@ -11,7 +11,7 @@
 }
 
 :global(.theme-dark) .header {
-    /* Sötét háttér */
+    /* dark background */
     background-color: rgba(10, 10, 10, 0.9); 
     color: var(--color-text-dark-mode, #e0e0e0); /* A szöveg színe világos lesz */
     /* Az árnyékot is módosítjuk sötét környezethez */
