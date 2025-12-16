@@ -1,5 +1,5 @@
 import React from 'react';
-import { IRestaurant } from '../../../types/restaurant'; // Ensure IRestaurant includes 'type'
+import { IRestaurant } from '../../../types/restaurant'; 
 import styles from './RestaurantDetails.module.css';
 /* Component to display detailed information about a restaurant */
 interface RestaurantDetailsProps {

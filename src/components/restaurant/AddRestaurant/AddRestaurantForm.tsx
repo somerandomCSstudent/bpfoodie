@@ -39,7 +39,7 @@ const AddRestaurantForm: React.FC<AddRestaurantFormProps> = ({ onSuccess, onSubm
 
     // Simulate submission delay
     setTimeout(() => {
-      onSubmit({ name, description, address, type }); 
+      onSubmit({ name, description, address, type }); // Pass 'type' in submission data
       setIsSubmitting(false);
       onSuccess(); // Close modal
     }, 800);

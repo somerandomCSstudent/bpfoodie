@@ -2,12 +2,25 @@ import { useState, useMemo, useCallback } from "preact/hooks";
 import { useAuth } from "../../contexts/AuthContext";
 import styles from "./Home.module.css";
 import { INewReview, IReview } from "../../types/review";
-import { IRestaurant, INewRestaurantData, IRestaurantOption } from "../../types/restaurant"; 
+// Import RestaurantType for filtering
+import { IRestaurant, INewRestaurantData, IRestaurantOption, RestaurantType } from "../../types/restaurant"; 
 import { mockRestaurants } from "../../data/mockRestaurants";
 import { initialReviews } from "../../data/mockReviews";
 import Dropdown from "../../components/DropDown/DropDown";
 import Header from "../../components/common/header/Header";
 import RestaurantPage from "../RestaurantPage/RestaurantPage"; 
+
+// Define a type for the filter, including 'All'
+type FilterType = RestaurantType | 'All';
+const ALL_RESTAURANT_TYPES: FilterType[] = [
+  'All', 
+  'Italian',
+  'East-Asian',
+  'American',
+  'South-American',
+  'Hungarian',
+  'Other'
+];
 
  // Main component handling global data state (restaurants, reviews) and logic.
  // Serves as the primary data manager and view selector.
@@ -18,6 +31,7 @@ const Home: React.FC = () => {
   const [restaurants, setRestaurants] = useState<IRestaurant[]>(mockRestaurants);
   const [reviews, setReviews] = useState<IReview[]>(initialReviews); 
   const [selectedRestaurantId, setSelectedRestaurantId] = useState<string>('');
+  const [selectedType, setSelectedType] = useState<FilterType>('All');
   
   // Find the currently selected restaurant object from the state
   const selectedRestaurant = restaurants.find(r => r.id === selectedRestaurantId);
@@ -41,11 +55,13 @@ const Home: React.FC = () => {
         slug: newSlug,
         rating: 0,
         reviewCount: 0,
-        type: newRestaurantData.type, 
+        type: newRestaurantData.type, // Include the new 'type'
     };
 
     setRestaurants((prev) => [...prev, newRestaurant]);
     setSelectedRestaurantId(newId); 
+    // Optionally set the filter to the newly added restaurant's type
+    setSelectedType(newRestaurantData.type); 
   }, [restaurants.length]);
 
 
@@ -66,17 +82,45 @@ const Home: React.FC = () => {
     
     setReviews((prevReviews) => [completeReview, ...prevReviews]); 
   }, [currentUser]);
+  
+  
+  // MEMOIZED: Filter restaurants based on the selected type
+  const filteredRestaurants = useMemo(() => {
+    if (selectedType === 'All') {
+      return restaurants;
+    }
+    return restaurants.filter(r => r.type === selectedType);
+  }, [restaurants, selectedType]);
+
+
    // Updates the selected restaurant ID when the dropdown changes.
   const handleRestaurantSelect = (id: string) => {
     setSelectedRestaurantId(id);
   };
+  
+  // Handler for the type selection dropdown
+  const handleTypeSelect = (type: string) => {
+    setSelectedType(type as FilterType);
+    
+    // When changing the filter, ensure a valid restaurant is selected, 
+    // or clear the selection if the list is empty.
+    const restaurantsInNewType = restaurants.filter(r => r.type === type || type === 'All');
+    if (!restaurantsInNewType.some(r => r.id === selectedRestaurantId)) {
+      // If the previously selected restaurant is no longer in the filtered list,
+      // select the first one in the new list, or clear the selection.
+      setSelectedRestaurantId(restaurantsInNewType.length > 0 ? restaurantsInNewType[0].id : '');
+    }
+  };
+
+
    // Creates restaurant options for the dropdown. Memoized for performance.
   const restaurantOptions: IRestaurantOption[] = useMemo(() => {
-    return restaurants.map(restaurant => ({
+    // Use filtered restaurants for the dropdown options
+    return filteredRestaurants.map(restaurant => ({
       id: restaurant.id,
       name: restaurant.name
     }));
-  }, [restaurants]);
+  }, [filteredRestaurants]);
 
   // JSX for the Home component including header, dropdown
   return (
@@ -86,14 +130,37 @@ const Home: React.FC = () => {
       {/* Container maintains the overall layout structure */}
       <div className={styles.homeContainer}> 
         
-        {/* Restaurant Selection Dropdown remains in the main component */}
+        {/* 1. Restaurant Selection Dropdown (Top) */}
         <div className={styles.dropdownWrapper}>
+            <p><strong>Select Restaurant:</strong></p> 
             <Dropdown 
               options={restaurantOptions} 
               onSelect={handleRestaurantSelect} 
               selectedValue={selectedRestaurantId}
             />
         </div>
+
+        {/* Space between the two dropdowns (20px as requested) */}
+        <div style={{ paddingBottom: '20px' }}/>
+
+        {/* 2. Type Selection Dropdown (Bottom) */}
+        <div className={styles.dropdownWrapper}>
+            <p><strong>Filter by Type:</strong></p> 
+            <Dropdown 
+              // Options include 'All' and all specific types
+              options={ALL_RESTAURANT_TYPES.map(t => ({ id: t, name: t }))} 
+              onSelect={handleTypeSelect} 
+              selectedValue={selectedType}
+            />
+        </div>
+        
+        {/* Filter Status Message */}
+        {selectedType !== 'All' && (
+            <p style={{ marginTop: '10px', fontWeight: 'bold' }}>
+                Only restaurants by category <span style={{ color: '#007bff' }}>{selectedType}</span> are being shown
+            </p>
+        )}
+
 
         {/* Conditional rendering of the dedicated RestaurantPage component */}
         {selectedRestaurant ? (
@@ -104,7 +171,10 @@ const Home: React.FC = () => {
             onSubmitReview={handleReviewSubmit}
           />
         ) : (
-          <p className={styles.placeholder}>Please select a restaurant from the list.</p>
+          <p className={styles.placeholder}>
+            {/* Display message based on filter state */}
+            {selectedType === 'All' ? "Please select a restaurant from the list." : `No restaurants found in the '${selectedType}' category.`}
+          </p>
         )}
       </div>
     </>
