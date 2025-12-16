@@ -1,8 +1,5 @@
-/* --- Globális Téma Változók ---
-   (Ezeket a global.css-ben kell definiálni, itt csak használjuk őket) 
-*/
-:root {
-  /* Világos téma alapértékek */
+:root { /* css variables for light and dark themes*/
+  /* light theme */
   --review-bg-light: #ffffff;
   --review-text-light: #333333;
   --review-shadow-light: 0 2px 5px rgba(0, 0, 0, 0.05);
@@ -46,12 +43,12 @@
     padding: 10px;
     border: 1px solid #ccc;
     border-radius: 4px;
-    box-sizing: border-box; /* Padding ne növelje a méretet */
+    box-sizing: border-box; /* padding should not increase the element's size */
     transition: background-color 0.3s, color 0.3s;
 }
 
-.ratingInput {
-    max-width: 80px; /* Csak az 1-5 számjegy elférjen */
+.ratingInput { /* Style for the rating input field */
+    max-width: 80px; 
     text-align: center;
 }
 

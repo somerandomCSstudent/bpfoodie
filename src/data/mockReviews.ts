@@ -1,5 +1,5 @@
 import { IReview } from "../types/review";
-
+// Mock data for reviews
 export const initialReviews: IReview[] = [
   {
     id: "r1",

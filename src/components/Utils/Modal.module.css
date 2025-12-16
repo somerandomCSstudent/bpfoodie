@@ -1,5 +1,5 @@
 :root {
-  /* Világos téma alapértékek */
+  /* light theme */
   --modal-bg-light: #ffffff;
   --modal-text-light: #333333;
   --modal-shadow-light: 0 5px 15px rgba(0, 0, 0, 0.2);
@@ -14,7 +14,6 @@
     left: 0;
     right: 0;
     bottom: 0;
-    /* Enyhe fekete áttetsző réteg */
     background-color: rgba(0, 0, 0, 0.6); 
     display: flex;
     justify-content: center;
@@ -37,7 +36,7 @@
     position: relative;
     transition: background-color 0.3s, color 0.3s;
 }
-
+/* Modal title styling */
 .title {
     margin-top: 0;
     border-bottom: 1px solid #eee;

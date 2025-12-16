@@ -43,7 +43,7 @@ const Header: React.FC<HeaderProps> = ({ onAddRestaurant }) => {
           <div className={styles.loggedInStatus}>
             <span>Logged in as {currentUser.username}</span>
             <button className="button-primary" onClick={() => setIsAddRestaurantModalOpen(true)}>
-              Add Restaurant
+              Add new restaurant...
             </button>
             <button className="button-primary" onClick={logout}>
               Log out

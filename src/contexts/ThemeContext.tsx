@@ -1,6 +1,6 @@
 import React, { createContext, useState, useContext, useEffect, ReactNode } from 'react';
 import { Theme, IThemeContext } from '../types/theme';
-
+// Default context values
 const defaultContextValue: IThemeContext = {
   theme: 'light',
   toggleTheme: () => {},
@@ -9,9 +9,7 @@ const defaultContextValue: IThemeContext = {
 
 export const ThemeContext = createContext<IThemeContext>(defaultContextValue);
 
-/**
- * A téma logikát és állapotot biztosító komponens.
- */
+// ThemeProvider component
 export const ThemeProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   const [theme, setTheme] = useState<Theme>('light');
 
@@ -19,10 +17,10 @@ export const ThemeProvider: React.FC<{ children: ReactNode }> = ({ children }) =
     setTheme((prevTheme) => (prevTheme === 'light' ? 'dark' : 'light'));
   };
 
-  // A háttérszín a témához igazodik
+  // background color based on the current theme
   const backgroundColor = theme === 'light' ? '#aee284' : '#87ceeb';
 
-  // A body osztályának frissítése
+  // body class update on theme change
   useEffect(() => {
     document.body.className = `theme-${theme}`;
   }, [theme]);
@@ -31,6 +29,5 @@ export const ThemeProvider: React.FC<{ children: ReactNode }> = ({ children }) =
 
   return <ThemeContext.Provider value={value}>{children}</ThemeContext.Provider>;
 };
-
-// Hook a téma kontextus egyszerű használatához
+// hook to use the ThemeContext
 export const useTheme = () => useContext(ThemeContext);

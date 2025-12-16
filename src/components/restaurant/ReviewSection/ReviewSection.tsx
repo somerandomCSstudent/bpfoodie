@@ -6,13 +6,13 @@ import { useAuth } from '../../../contexts/AuthContext';
 import ReviewCard from './ReviewCard';
 import ReviewForm from './ReviewForm';
 import styles from './ReviewSection.module.css';
-
+/* Props for the ReviewSection component */
 interface ReviewSectionProps {
   restaurantId: string;
   reviews: IReview[];
   onSubmitReview: (review: INewReview) => void;
 }
-
+/* Functional component definition */
 const ReviewSection: React.FC<ReviewSectionProps> = ({ restaurantId, reviews, onSubmitReview }) => {
   const { currentUser } = useAuth();
   const [showForm, setShowForm] = useState(false);
@@ -27,7 +27,7 @@ const ReviewSection: React.FC<ReviewSectionProps> = ({ restaurantId, reviews, on
     onSubmitReview(review);
     setShowForm(false); // Hide the form after submission
   };
-
+/* JSX for the review section including list and form */
   return (
     <div className={styles.reviewSection}>
       <h2>User Reviews ({restaurantReviews.length})</h2>

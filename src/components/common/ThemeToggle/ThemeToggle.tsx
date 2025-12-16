@@ -1,7 +1,7 @@
 import React from 'react';
 import { useTheme } from '../../../contexts/ThemeContext';
 import styles from './ThemeToggle.module.css';
-
+// Theme toggle component allowing users to switch between light and dark modes
 const ThemeToggle: React.FC = () => {
   const { theme, toggleTheme } = useTheme();
 

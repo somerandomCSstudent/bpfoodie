@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
 import { INewRestaurantData } from '../../../types/restaurant';
 import styles from './AddRestaurantForm.module.css';
-
+/* Form component for adding a new restaurant */
 interface AddRestaurantFormProps {
   onSuccess: () => void;
   onSubmit: (data: INewRestaurantData) => void;
 }
-
+/* Functional component definition */
 const AddRestaurantForm: React.FC<AddRestaurantFormProps> = ({ onSuccess, onSubmit }) => {
   const [name, setName] = useState('');
   const [description, setDescription] = useState('');

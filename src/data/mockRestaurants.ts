@@ -1,5 +1,5 @@
 import { IRestaurant } from "../types/restaurant";
-
+// Mock data for restaurants
 export const mockRestaurants: IRestaurant[] = [
   {
     id: "1",

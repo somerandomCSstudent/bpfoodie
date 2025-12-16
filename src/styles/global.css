@@ -1,5 +1,5 @@
 
-:root {
+:root { /* css variables for light and dark themes*/
   --color-background-light: #aee284; 
   --color-background-dark: #1f4b5d; 
   --color-text-primary: #333;
@@ -9,12 +9,12 @@
   --color-box-background-dark: rgba(0, 0, 0, 0.3);
 }
 
-/* Fő stílus a body-ra */
+/* main styles for the body */
 body {
   transition: background-color 0.3s ease;
   margin: 0;
   font-family: Arial, sans-serif;
-  min-height: 100vh; /* Kiterjeszti a háttérszínt a teljes magasságra */
+  min-height: 100vh; /* extne */
 }
 
  /* default light-theme */
@@ -29,7 +29,7 @@ body.theme-dark {
   color: var(--color-text-dark-mode, #e0e0e0); /* Fehér szöveg a sötét háttéren */
 }
 
-/* Közös gomb stílus (Login/Register) */
+/* button styles */
 .button-primary {
   padding: 8px 15px;
   border: none;
@@ -39,7 +39,7 @@ body.theme-dark {
   color: white;
   margin-left: 10px;
 }
-
+/* hover effect for buttons */
 .button-primary:hover {
   opacity: 0.8;
 }

@@ -1,3 +1,5 @@
+// src/pages/Home/Home.tsx - REFACTORED
+
 import { useState, useMemo, useCallback } from "preact/hooks";
 import { useAuth } from "../../contexts/AuthContext";
 import styles from "./Home.module.css";
@@ -6,18 +8,15 @@ import { IRestaurant, INewRestaurantData, IRestaurantOption } from "../../types/
 import { mockRestaurants } from "../../data/mockRestaurants";
 import { initialReviews } from "../../data/mockReviews";
 import Dropdown from "../../components/DropDown/DropDown";
-import RestaurantDetails from "../../components/restaurant/RestaurantDetails/RestaurantDetails";
-import ReviewSection from "../../components/restaurant/ReviewSection/ReviewSection";
 import Header from "../../components/common/header/Header";
+import RestaurantPage from "../RestaurantPage/RestaurantPage"; 
 
-/**
- * Main component handling global data state (restaurants, reviews) and logic.
- */
+ // Main component handling global data state (restaurants, reviews) and logic.
+ // Serves as the primary data manager and view selector.
 const Home: React.FC = () => {
   const { currentUser } = useAuth();
   
-  // State for all restaurants, initialized with mock data.
-  // This state is necessary to allow adding new restaurants.
+  // All state management remains here (Source of Truth)
   const [restaurants, setRestaurants] = useState<IRestaurant[]>(mockRestaurants);
   const [reviews, setReviews] = useState<IReview[]>(initialReviews); 
   const [selectedRestaurantId, setSelectedRestaurantId] = useState<string>('');
@@ -25,15 +24,12 @@ const Home: React.FC = () => {
   // Find the currently selected restaurant object from the state
   const selectedRestaurant = restaurants.find(r => r.id === selectedRestaurantId);
 
-  /**
-   * Handles the submission of a new restaurant and updates the state.
-   * @param newRestaurantData Data from the AddRestaurantForm.
-   */
+ 
+  // Handles the submission of a new restaurant and updates the state.
+  
   const handleAddRestaurant = useCallback((newRestaurantData: INewRestaurantData) => {
-    // Generate unique ID based on current list length (for mock data)
+    // Logic for generating ID and slug
     const newId = `r${restaurants.length + 1}`;
-    
-    // Generate simple slug (e.g., "Gundel Restaurant" -> "gundel-restaurant")
     const newSlug = newRestaurantData.name
         .toLowerCase()
         .replace(/\s+/g, '-')
@@ -49,20 +45,16 @@ const Home: React.FC = () => {
         reviewCount: 0,
     };
 
-    // Add new restaurant to the list state
     setRestaurants((prev) => [...prev, newRestaurant]);
-    
-    // Select the newly added restaurant
     setSelectedRestaurantId(newId); 
   }, [restaurants.length]);
 
 
-  /**
-   * Handles new review submissions and updates the state.
-   * @param newReview The review data submitted from the form.
-   */
+ 
+  // Handles new review submissions and updates the state.
+  
   const handleReviewSubmit = useCallback((newReview: INewReview) => {
-    if (!currentUser) return; // Must be logged in
+    if (!currentUser) return;
     
     const completeReview: IReview = {
       id: Date.now().toString(),
@@ -73,62 +65,29 @@ const Home: React.FC = () => {
       createdAt: Date.now()
     };
     
-    // Add new review to the beginning of the list
     setReviews((prevReviews) => [completeReview, ...prevReviews]); 
   }, [currentUser]);
-
-
-  /**
-   * Calculates the average rating and review count for a specific restaurant.
-   * @param restaurantId The ID of the restaurant.
-   */
-  const calculateAverageRating = useCallback((restaurantId: string) => {
-    const restaurantReviews = reviews.filter(r => r.restaurantId === restaurantId);
-    if (restaurantReviews.length === 0) {
-      return { rating: 0, count: 0 };
-    }
-    const totalRating = restaurantReviews.reduce((sum, r) => sum + r.rating, 0);
-    const averageRating = totalRating / restaurantReviews.length;
-    return { rating: averageRating, count: restaurantReviews.length };
-  }, [reviews]);
-
-  /**
-   * Updates the selected restaurant ID when the dropdown changes.
-   * @param id The ID of the selected restaurant.
-   */
+   // Updates the selected restaurant ID when the dropdown changes.
   const handleRestaurantSelect = (id: string) => {
     setSelectedRestaurantId(id);
   };
-
-  /**
-   * Creates restaurant options for the dropdown, derived from the current state.
-   * Uses useMemo to optimize calculation when 'restaurants' state changes.
-   */
+   // Creates restaurant options for the dropdown. Memoized for performance.
   const restaurantOptions: IRestaurantOption[] = useMemo(() => {
     return restaurants.map(restaurant => ({
       id: restaurant.id,
       name: restaurant.name
     }));
-  }, [restaurants]); // Re-calculate only when the list of restaurants changes
+  }, [restaurants]);
 
-
-  // Get current restaurant details + calculated stats
-  const currentStats = selectedRestaurant 
-    ? calculateAverageRating(selectedRestaurant.id) 
-    : { rating: 0, count: 0 };
-
-
+  // JSX for the Home component including header, dropdown
   return (
     <>
-      {/* Pass the handler for adding a new restaurant to the Header */}
       <Header onAddRestaurant={handleAddRestaurant} /> 
       
-      {/* NOTE: The error "Property 'homeContainer' does not exist" suggests a 
-        TypeScript configuration issue with CSS modules. Please ensure your 
-        project setup correctly recognizes '.module.css' imports as types.
-      */}
+      {/* Container maintains the overall layout structure */}
       <div className={styles.homeContainer}> 
-        {/* Dropdown */}
+        
+        {/* Restaurant Selection Dropdown remains in the main component */}
         <div className={styles.dropdownWrapper}>
             <Dropdown 
               options={restaurantOptions} 
@@ -137,23 +96,14 @@ const Home: React.FC = () => {
             />
         </div>
 
-        {/* Restaurant Details and Reviews */}
+        {/* Conditional rendering of the dedicated RestaurantPage component */}
         {selectedRestaurant ? (
-          <>
-            <RestaurantDetails 
-              restaurant={selectedRestaurant}
-              averageRating={currentStats.rating} // Pass average rating
-              reviewCount={currentStats.count}    // Pass review count
-            />
-            
-            <div className={styles.reviewSectionWrapper}>
-              <ReviewSection 
-                restaurantId={selectedRestaurant.id}
-                reviews={reviews}
-                onSubmitReview={handleReviewSubmit}
-              />
-            </div>
-          </>
+          // Renders the new child component for the detailed view
+          <RestaurantPage
+            restaurant={selectedRestaurant}
+            reviews={reviews}
+            onSubmitReview={handleReviewSubmit}
+          />
         ) : (
           <p className={styles.placeholder}>Please select a restaurant from the list.</p>
         )}

@@ -1,4 +1,4 @@
-.detailsContainer {
+.detailsContainer { /* Container for restaurant details */
   background-color: var(--color-box-background-light);
   padding: 30px;
   border-radius: 8px;
@@ -10,21 +10,21 @@
   margin-right: auto;
 }
 
-:global(.theme-dark) .detailsContainer {
-    /* drak, slightly transparent background */
+:global(.theme-dark) .detailsContainer { 
+    /* dark, slightly transparent background */
     background-color: rgba(30, 30, 30, 0.9); 
     color: var(--color-text-dark-mode, #e0e0e0); /* light text */
-    /* Az árnyék is világosabb legyen sötét alapon */
+    /* the shadow is lighter on dark background */
     box-shadow: 0 4px 10px rgba(255, 255, 255, 0.1); 
 }
 
-.description {
+.description { /* Style for the restaurant description */
   font-style: italic;
   line-height: 1.5;
   margin-bottom: 20px;
 }
 
-.rating {
+.rating { /* Style for the restaurant rating */
   font-size: 1.2em;
   font-weight: bold;
   color: #f5a623; /* orange for review */

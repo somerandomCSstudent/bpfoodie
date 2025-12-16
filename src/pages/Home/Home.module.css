@@ -1,15 +1,13 @@
-/* src/pages/Home/Home.module.css */
-
-.homeContainer {
+.homeContainer { /* main container sy */
     padding: 20px;
     text-align: center;
-    min-height: calc(100vh - 80px); /* Fejléc magassága kb. 80px */
+    min-height: calc(100vh - 80px); /* header height */
 }
-
+/* Dropdown wrapper to add margin */
 .dropdownWrapper {
     margin-bottom: 30px;
 }
-
+/* Placeholder text when no restaurants are available */
 .placeholder {
     font-size: 1.1em;
     color: var(--color-text-secondary);

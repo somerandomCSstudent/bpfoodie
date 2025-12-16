@@ -1,11 +1,9 @@
-// src/components/Auth/RegisterForm.tsx (Példa)
-
 import React, { useState } from 'react';
 import { useAuth } from '../../contexts/AuthContext';
 // Szükség esetén importálhatsz stílusokat
 
 const RegisterForm: React.FC<{ onSuccess: () => void }> = ({ onSuccess }) => {
-  const { register, isLoading } = useAuth(); // <<< ITT HÍVJA A 'register' FÜGGVÉNYT
+  const { register, isLoading } = useAuth(); // <<< call the useAuth hook to get register and isLoading
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
@@ -14,12 +12,12 @@ const RegisterForm: React.FC<{ onSuccess: () => void }> = ({ onSuccess }) => {
     e.preventDefault();
     setError('');
 
-    const result = await register(username, password); // <<< AUTH KONTEXTUS LOGIKÁJA
+    const result = await register(username, password); 
 
     if (result === true) {
-      onSuccess(); // Close modal on success
+      onSuccess(); // close modal on success
     } else if (typeof result === 'string') {
-      // Hiba kezelése, pl. "Account with this username already exists."
+      // handling error: "Account with this username already exists."
       setError(result); 
     }
   };

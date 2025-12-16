@@ -6,7 +6,7 @@ const mockUsers: Record<string, string> = {
   "bp_food_lover": "password123",
   "reviewer_joe": "secret"
 };
-
+// Default context values
 const defaultContextValue: IAuthContext = {
   currentUser: null,
   login: async () => false,
@@ -14,9 +14,9 @@ const defaultContextValue: IAuthContext = {
   logout: () => {},
   isLoading: false,
 };
-
+// Create AuthContext
 export const AuthContext = createContext<IAuthContext>(defaultContextValue);
-
+// AuthProvider component
 export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   const [currentUser, setCurrentUser] = useState<IUser | null>(null);
   const [isLoading, setIsLoading] = useState(false);
@@ -56,7 +56,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
   const logout = () => {
     setCurrentUser(null);
   };
-
+// Context value
   const value: IAuthContext = { currentUser, login, register, logout, isLoading };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
