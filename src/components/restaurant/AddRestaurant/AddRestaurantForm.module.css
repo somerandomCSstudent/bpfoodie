@@ -1,0 +1,36 @@
+.form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    padding: 5px; 
+}
+
+.formGroup label {
+    display: block;
+    font-weight: 600;
+    margin-bottom: 5px;
+}
+
+.formGroup input[type="text"],
+.formGroup textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box; 
+    /* transition for theme switching */
+    transition: background-color 0.3s, color 0.3s; 
+}
+
+.errorText {
+    color: #d9534f;
+    font-weight: bold;
+}
+
+/* dark mode overrides */
+:global(.theme-dark) .formGroup input[type="text"],
+:global(.theme-dark) .formGroup textarea {
+    background-color: #3e3e3e; /* dark background */
+    color: #e0e0e0; /* light text */
+    border-color: #555555;
+}

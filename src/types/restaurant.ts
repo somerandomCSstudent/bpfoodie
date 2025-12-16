@@ -1,20 +1,22 @@
-/**
- * A Restaurant DTO (Data Transfer Object)
- */
+// for restaurant details page and dropdowns
 export interface IRestaurant {
   id: string;
   name: string;
   description: string;
   address: string;
   rating: number; // 1 to 5
-  /** Összes értékelés száma */
-  reviewCount: number; 
-  /** A legördülő menühöz használt egyszerűsített típus */
-  slug: string; // Pl. a URL-hez is használható
+  reviewCount: number; // number of reviews
+  slug: string; // Optional: for SEO-friendly URLs
 }
 
-// Csak a legördülő menü számára szükséges egyszerűsített adatok
+// only for dropdown menu options
 export interface IRestaurantOption {
   id: string;
   name: string;
+}
+// for addition of a new restaurant
+export interface INewRestaurantData {
+  name: string;
+  description: string;
+  address: string;
 }

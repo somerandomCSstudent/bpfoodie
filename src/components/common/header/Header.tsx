@@ -5,15 +5,27 @@ import { useAuth } from '../../../contexts/AuthContext';
 import Modal from '../../Utils/Modal';
 import LoginForm from '../../Auth/Login';
 import RegisterForm from '../../Auth/Register';
+import AddRestaurantForm from '../../restaurant/AddRestaurant/AddRestaurantForm';
+import { INewRestaurantData } from '../../../types/restaurant';
 
-const Header: React.FC = () => {
+interface HeaderProps {
+  onAddRestaurant: (newRestaurantData: INewRestaurantData) => void;
+}
+
+const Header: React.FC<HeaderProps> = ({ onAddRestaurant }) => {
   const { currentUser, logout } = useAuth();
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
+  const [isAddRestaurantModalOpen, setIsAddRestaurantModalOpen] = useState(false);
   const [isLoginView, setIsLoginView] = useState(true);
 
-  const openModal = (isLogin: boolean) => {
+  const openAuthModal = (isLogin: boolean) => {
     setIsLoginView(isLogin);
-    setIsModalOpen(true);
+    setIsAuthModalOpen(true);
+  };
+
+  const handleAddRestaurant = (newRestaurantData: INewRestaurantData) => {
+    onAddRestaurant(newRestaurantData);
+    setIsAddRestaurantModalOpen(false);
   };
 
   return (
@@ -30,6 +42,9 @@ const Header: React.FC = () => {
           // Logged In State
           <div className={styles.loggedInStatus}>
             <span>Logged in as {currentUser.username}</span>
+            <button className="button-primary" onClick={() => setIsAddRestaurantModalOpen(true)}>
+              Add Restaurant
+            </button>
             <button className="button-primary" onClick={logout}>
               Log out
             </button>
@@ -37,25 +52,38 @@ const Header: React.FC = () => {
         ) : (
           // Logged Out State
           <>
-            <button className="button-primary" onClick={() => openModal(true)}>
+            <button className="button-primary" onClick={() => openAuthModal(true)}>
               Login
             </button>
-            <button className="button-primary" onClick={() => openModal(false)}>
+            <button className="button-primary" onClick={() => openAuthModal(false)}>
               Register
             </button>
           </>
         )}
       </div>
 
+      {/* Add Restaurant Modal - Only visible when logged in */}
       <Modal 
-        isOpen={isModalOpen} 
-        onClose={() => setIsModalOpen(false)} 
+        isOpen={isAddRestaurantModalOpen} 
+        onClose={() => setIsAddRestaurantModalOpen(false)} 
+        title="Add a New Restaurant"
+      >
+        <AddRestaurantForm 
+          onSuccess={() => setIsAddRestaurantModalOpen(false)}
+          onSubmit={handleAddRestaurant}
+        />
+      </Modal>
+
+      {/* Auth Modal */}
+      <Modal 
+        isOpen={isAuthModalOpen} 
+        onClose={() => setIsAuthModalOpen(false)} 
         title={isLoginView ? 'Login to BPFoodie' : 'Register for BPFoodie'}
       >
         {isLoginView ? (
-          <LoginForm onSuccess={() => setIsModalOpen(false)} />
+          <LoginForm onSuccess={() => setIsAuthModalOpen(false)} />
         ) : (
-          <RegisterForm onSuccess={() => setIsModalOpen(false)} />
+          <RegisterForm onSuccess={() => setIsAuthModalOpen(false)} />
         )}
         <p className={styles.switchAuth}>
             {isLoginView ? "Need an account?" : "Already have an account?"} 
