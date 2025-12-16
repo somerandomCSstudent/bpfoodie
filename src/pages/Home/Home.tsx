@@ -36,6 +36,37 @@ const Home: React.FC = () => {
   // Find the currently selected restaurant object from the state
   const selectedRestaurant = restaurants.find(r => r.id === selectedRestaurantId);
 
+  
+  // >>>>>>>>>>>>>> JS API #1: Audio API bevezetése <<<<<<<<<<<<<<<<
+  // Helper function to create and play a sound using the Web Audio API
+  const playSound = useCallback((frequency: number, duration: number, type: OscillatorType, startGain: number, endGain: number) => {
+    const AudioContext = window.AudioContext || (window as any).webkitAudioContext;
+    if (!AudioContext) {
+      console.warn("Web Audio API not supported. Cannot play sound.");
+      return;
+    }
+
+    try {
+      const audioCtx = new AudioContext();
+      const oscillator = audioCtx.createOscillator();
+      const gainNode = audioCtx.createGain();
+
+      oscillator.type = type;
+      oscillator.frequency.setValueAtTime(frequency, audioCtx.currentTime);
+
+      oscillator.connect(gainNode);
+      gainNode.connect(audioCtx.destination);
+
+      gainNode.gain.setValueAtTime(startGain, audioCtx.currentTime);
+      gainNode.gain.exponentialRampToValueAtTime(endGain, audioCtx.currentTime + duration);
+
+      oscillator.start();
+      oscillator.stop(audioCtx.currentTime + duration);
+      console.log("Audio API: Selection success sound played.");
+    } catch (e) {
+      console.error("Error playing sound with Audio API:", e);
+    }
+  }, []);
  
   // Handles the submission of a new restaurant and updates the state.
   
@@ -96,6 +127,8 @@ const Home: React.FC = () => {
    // Updates the selected restaurant ID when the dropdown changes.
   const handleRestaurantSelect = (id: string) => {
     setSelectedRestaurantId(id);
+    // HANG: Rövid, magas hang a választás megerősítésére (JS API #1: Audio API)
+    playSound(880, 0.05, 'triangle', 0.7, 0.001); // A5 (880 Hz)
   };
   
   // Handler for the type selection dropdown
@@ -129,13 +162,15 @@ const Home: React.FC = () => {
       
       {/* Container maintains the overall layout structure */}
       <div className={styles.homeContainer}> 
+
+        {/* Eltávolítottam az Audio API-ról szóló információs üzenetet innen. */}
         
         {/* 1. Restaurant Selection Dropdown (Top) */}
         <div className={styles.dropdownWrapper}>
             <p><strong>Select Restaurant:</strong></p> 
             <Dropdown 
               options={restaurantOptions} 
-              onSelect={handleRestaurantSelect} 
+              onSelect={handleRestaurantSelect} // EZ INDÍTJA A HANGOT
               selectedValue={selectedRestaurantId}
             />
         </div>
