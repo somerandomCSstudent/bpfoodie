@@ -12,7 +12,7 @@ const Dropdown: React.FC<DropdownProps> = ({ options, onSelect, selectedValue })
   const handleChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     onSelect(event.currentTarget.value);
   };
-
+  // Renders the dropdown select element
   return (
     <select 
       className={styles.dropdown} 

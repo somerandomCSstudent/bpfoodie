@@ -4,7 +4,7 @@ import styles from './ThemeToggle.module.css';
 // Theme toggle component allowing users to switch between light and dark modes
 const ThemeToggle: React.FC = () => {
   const { theme, toggleTheme } = useTheme();
-
+  // Renders the theme toggle switch
   return (
     <div className={styles.container}>
       <span>{theme === 'light' ? '☀️' : '🌙'}</span>

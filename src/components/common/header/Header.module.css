@@ -1,4 +1,4 @@
-.header {
+.header { /* Header container styles */
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -9,7 +9,7 @@
   top: 0;
   z-index: 100;
 }
-
+/* Dark mode styles */
 :global(.theme-dark) .header {
     /* dark background */
     background-color: rgba(10, 10, 10, 0.9); 
@@ -17,12 +17,12 @@
     /* modified shadow */
     box-shadow: 0 2px 4px rgba(255, 255, 255, 0.2); 
 }
-
+/* Logo styles */
 .logo {
   font-size: 1.8em;
   margin: 0;
 }
-
+/* Navigation styles */
 .leftControls, .rightControls {
   display: flex;
   align-items: center;

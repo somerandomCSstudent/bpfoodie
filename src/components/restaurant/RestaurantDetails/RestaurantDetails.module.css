@@ -9,7 +9,7 @@
   margin-left: auto;
   margin-right: auto;
 }
-
+/* Dark mode styles */
 :global(.theme-dark) .detailsContainer { 
     /* dark, slightly transparent background */
     background-color: rgba(30, 30, 30, 0.9); 

@@ -6,7 +6,7 @@
 }
 
 /* ------------------------------------------------------------------- */
-/* 1. MODAL OVERLAY (ÁRNYÉKOLT HÁTTÉR) */
+/* MODAL OVERLAY (SHADOWY BACKGROUND) */
 /* ------------------------------------------------------------------- */
 .modalOverlay {
     position: fixed;
@@ -18,12 +18,12 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    z-index: 1000; /* Biztosítja, hogy a legfelső réteg legyen */
-    backdrop-filter: blur(4px); /* Enyhe elmosás */
+    z-index: 1000; /* Ensures it's on top */
+    backdrop-filter: blur(4px); /* soft blur effect */
 }
 
 /* ------------------------------------------------------------------- */
-/* 2. MODAL CONTENT (AZ ABLAK TARTALMA) */
+/*  MODAL CONTENT (WINDOW CONTENT) */
 /* ------------------------------------------------------------------- */
 .modalContent {
     background-color: var(--modal-bg-light);
@@ -45,7 +45,7 @@
 }
 
 /* ------------------------------------------------------------------- */
-/* 3. CLOSE BUTTON (BEZÁRÓ GOMB) */
+/* CLOSE BUTTON */
 /* ------------------------------------------------------------------- */
 .closeButton {
     position: absolute;
@@ -58,30 +58,30 @@
     color: var(--modal-text-light);
     transition: color 0.3s;
 }
-
+/* Close button hover effect */
 .closeButton:hover {
     color: #d9534f;
 }
 
 /* ------------------------------------------------------------------- */
-/* 4. SÖTÉT TÉMA FELÜLÍRÁSA (DARK MODE OVERRIDES) */
+/* DARK MODE OVERRIDES */
 /* ------------------------------------------------------------------- */
 
-/* A modális ablak tartalmának felülírása sötét témában */
+/* Dark mode styles */
 :global(.theme-dark) .modalContent {
-    background-color: #2b2b2b; /* Sötétebb háttér */
-    color: #e0e0e0; /* Világos szöveg */
-    box-shadow: 0 5px 15px rgba(255, 255, 255, 0.1); /* Világos árnyék */
+    background-color: #2b2b2b; /* dark background */
+    color: #e0e0e0; /* light text */
+    box-shadow: 0 5px 15px rgba(255, 255, 255, 0.1); /* Light shadow */
 }
-
+/* Title border in dark mode */
 :global(.theme-dark) .title {
-    border-bottom-color: #444444; /* Sötétebb vonal */
+    border-bottom-color: #444444; /* Darker line */
 }
-
+/* Close button in dark mode */
 :global(.theme-dark) .closeButton {
     color: #e0e0e0;
 }
-
+/* Close button hover in dark mode */
 :global(.theme-dark) .closeButton:hover {
     color: #ff5555;
 }

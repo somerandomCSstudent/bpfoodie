@@ -44,7 +44,7 @@ const AddRestaurantForm: React.FC<AddRestaurantFormProps> = ({ onSuccess, onSubm
       onSuccess(); // Close modal
     }, 800);
   };
-
+  // Renders the add restaurant form
   return (
     <form onSubmit={handleSubmit} className={styles.form}>
       {error && <p className={styles.errorText}>{error}</p>}

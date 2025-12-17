@@ -7,27 +7,27 @@ import LoginForm from '../../Auth/Login';
 import RegisterForm from '../../Auth/Register';
 import AddRestaurantForm from '../../restaurant/AddRestaurant/AddRestaurantForm';
 import { INewRestaurantData } from '../../../types/restaurant';
-
+// Props for Header component 
 interface HeaderProps {
   onAddRestaurant: (newRestaurantData: INewRestaurantData) => void;
 }
-
+// Header component with authentication and restaurant addition functionality
 const Header: React.FC<HeaderProps> = ({ onAddRestaurant }) => {
   const { currentUser, logout } = useAuth();
   const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
   const [isAddRestaurantModalOpen, setIsAddRestaurantModalOpen] = useState(false);
   const [isLoginView, setIsLoginView] = useState(true);
-
+  // Opens the authentication modal with specified view (login/register)
   const openAuthModal = (isLogin: boolean) => {
     setIsLoginView(isLogin);
     setIsAuthModalOpen(true);
   };
-
+  // Handles adding a new restaurant
   const handleAddRestaurant = (newRestaurantData: INewRestaurantData) => {
     onAddRestaurant(newRestaurantData);
     setIsAddRestaurantModalOpen(false);
   };
-
+  // Renders the header component
   return (
     <header className={styles.header}>
       {/* ... Left Controls ... */}

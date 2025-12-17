@@ -2,12 +2,12 @@ import React, { useState } from 'react';
 import { useAuth } from '../../../contexts/AuthContext';
 import { INewReview } from '../../../types/review';
 import styles from './ReviewSection.module.css';
-/* Props for the ReviewForm component */
+// Props for the ReviewForm component 
 interface ReviewFormProps {
   restaurantId: string;
   onSubmit: (review: INewReview) => void;
 }
-/* Functional component definition */
+// Functional component definition 
 const ReviewForm: React.FC<ReviewFormProps> = ({ restaurantId, onSubmit }) => {
   const { currentUser } = useAuth();
   const [comment, setComment] = useState('');
@@ -16,7 +16,7 @@ const ReviewForm: React.FC<ReviewFormProps> = ({ restaurantId, onSubmit }) => {
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   if (!currentUser) return null; // Should not happen if button visibility is managed correctly
-
+  // Handles form submission
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     setError('');
@@ -47,7 +47,7 @@ const ReviewForm: React.FC<ReviewFormProps> = ({ restaurantId, onSubmit }) => {
         setIsSubmitting(false);
     }, 500); 
   };
-/* JSX for the review submission form */
+  // JSX for the review submission form 
   return (
     <form onSubmit={handleSubmit} className={styles.reviewForm}>
       <h3>Submit Your Review (as {currentUser.username})</h3>

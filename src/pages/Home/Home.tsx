@@ -1,4 +1,4 @@
-import { useState, useMemo, useCallback } from "preact/hooks";
+import { useState, useMemo, useCallback, useEffect } from "preact/hooks"; 
 import { useAuth } from "../../contexts/AuthContext";
 import styles from "./Home.module.css";
 import { INewReview, IReview } from "../../types/review";
@@ -22,20 +22,18 @@ const ALL_RESTAURANT_TYPES: FilterType[] = [
 ];
 
  // Main component handling global data state (restaurants, reviews) and logic.
- // Serves as the primary data manager and view selector.
 const Home: React.FC = () => {
   const { currentUser } = useAuth();
   
-  // All state management remains here (Source of Truth)
   const [restaurants, setRestaurants] = useState<IRestaurant[]>(mockRestaurants);
   const [reviews, setReviews] = useState<IReview[]>(initialReviews); 
   const [selectedRestaurantId, setSelectedRestaurantId] = useState<string>('');
   const [selectedType, setSelectedType] = useState<FilterType>('All');
   
-  // Find the currently selected restaurant object from the state
   const selectedRestaurant = restaurants.find(r => r.id === selectedRestaurantId);
 
-  // Helper function to create and play a sound using the Web Audio API
+  
+  // Plays a sound using the Web Audio API
   const playSound = useCallback((frequency: number, duration: number, type: OscillatorType, startGain: number, endGain: number) => {
     const AudioContext = window.AudioContext || (window as any).webkitAudioContext;
     if (!AudioContext) {
@@ -64,9 +62,39 @@ const Home: React.FC = () => {
       console.error("Error playing sound with Audio API:", e);
     }
   }, []);
- 
+
+  //asking for notification permission
+  const requestNotificationPermission = useCallback(() => {
+    if ('Notification' in window && Notification.permission !== 'granted' && Notification.permission !== 'denied') {
+        Notification.requestPermission().then(permission => {
+            if (permission === 'granted') {
+                console.log("Notification API: Permission granted.");
+            } else {
+                console.log("Notification API: Permission denied or dismissed.");
+            }
+        });
+    }
+  }, []);
+
+  // notify user upon successful review submission
+  const displayReviewNotification = useCallback((restaurantName: string, rating: number) => {
+    if ('Notification' in window && Notification.permission === 'granted') {
+        const options = {
+            body: `You have rated: ${restaurantName}. Rating: ${rating}`,
+            icon: '🍽️' 
+        };
+        new Notification('Sucessful rating!', options);
+        console.log("Notification API: Review success notification displayed.");
+    }
+  }, []); 
+
+  // asking for permission on component mount
+  useEffect(() => {
+    requestNotificationPermission(); 
+  }, [requestNotificationPermission]);
+
+
   // Handles the submission of a new restaurant and updates the state.
-  
   const handleAddRestaurant = useCallback((newRestaurantData: INewRestaurantData) => {
     // Logic for generating ID and slug
     const newId = `r${restaurants.length + 1}`;
@@ -74,7 +102,7 @@ const Home: React.FC = () => {
         .toLowerCase()
         .replace(/\s+/g, '-')
         .replace(/[^\w-]+/g, '');
-
+    // Create new restaurant object
     const newRestaurant: IRestaurant = {
         id: newId,
         name: newRestaurantData.name,
@@ -83,15 +111,16 @@ const Home: React.FC = () => {
         slug: newSlug,
         rating: 0,
         reviewCount: 0,
-        type: newRestaurantData.type, // Include the new 'type'
+        type: newRestaurantData.type, 
     };
-
+    // Update state with the new restaurant
     setRestaurants((prev) => [...prev, newRestaurant]);
     setSelectedRestaurantId(newId); 
-    // Optionally set the filter to the newly added restaurant's type
     setSelectedType(newRestaurantData.type); 
   }, [restaurants.length]);
 
+
+ 
   // Handles new review submissions and updates the state.
   const handleReviewSubmit = useCallback((newReview: INewReview) => {
     if (!currentUser) return;
@@ -106,14 +135,19 @@ const Home: React.FC = () => {
     };
     
     setReviews((prevReviews) => [completeReview, ...prevReviews]); 
-  }, [currentUser]);
-  
-  
-  // Filter restaurants based on the selected type
+    
+    // send notification after adding a review
+    const restaurantName = restaurants.find(r => r.id === newReview.restaurantId)?.name || 'Ismeretlen Étterem';
+    displayReviewNotification(restaurantName, newReview.rating);
+  }, [currentUser, displayReviewNotification, restaurants]);
+
+
+  // filtered restaurants based on selected type
   const filteredRestaurants = useMemo(() => {
     if (selectedType === 'All') {
       return restaurants;
     }
+    
     return restaurants.filter(r => r.type === selectedType);
   }, [restaurants, selectedType]);
 
@@ -121,8 +155,8 @@ const Home: React.FC = () => {
    // Updates the selected restaurant ID when the dropdown changes.
   const handleRestaurantSelect = (id: string) => {
     setSelectedRestaurantId(id);
-    // HANG: Rövid, magas hang a választás megerősítésére (JS API #1: Audio API)
-    playSound(880, 0.05, 'triangle', 0.7, 0.001); // A5 (880 Hz)
+    // sound effect on selection
+    playSound(784, 0.08, 'sine', 0.8, 0.001); // C5 (784 Hz), sine wave, 0.8s duration
   };
   
   // Handler for the type selection dropdown
@@ -131,22 +165,23 @@ const Home: React.FC = () => {
     
     // When changing the filter, ensure a valid restaurant is selected, 
     // or clear the selection if the list is empty.
-    const restaurantsInNewType = restaurants.filter(r => r.type === type || type === 'All');
+    const restaurantsInNewType = filteredRestaurants.filter(r => r.type === type || type === 'All');
     if (!restaurantsInNewType.some(r => r.id === selectedRestaurantId)) {
-      // If the previously selected restaurant is no longer in the filtered list,
-      // select the first one in the new list, or clear the selection.
       setSelectedRestaurantId(restaurantsInNewType.length > 0 ? restaurantsInNewType[0].id : '');
     }
   };
 
+
    // Creates restaurant options for the dropdown. Memoized for performance.
   const restaurantOptions: IRestaurantOption[] = useMemo(() => {
-    // Use filtered restaurants for the dropdown options
-    return filteredRestaurants.map(restaurant => ({
-      id: restaurant.id,
-      name: restaurant.name
-    }));
+    return filteredRestaurants.map(restaurant => {
+        return {
+            id: restaurant.id,
+            name: restaurant.name
+        };
+    });
   }, [filteredRestaurants]);
+
 
   // JSX for the Home component including header, dropdown
   return (
@@ -155,15 +190,13 @@ const Home: React.FC = () => {
       
       {/* Container maintains the overall layout structure */}
       <div className={styles.homeContainer}> 
-
-        {/* Eltávolítottam az Audio API-ról szóló információs üzenetet innen. */}
         
         {/* 1. Restaurant Selection Dropdown (Top) */}
         <div className={styles.dropdownWrapper}>
             <p><strong>Select Restaurant:</strong></p> 
             <Dropdown 
               options={restaurantOptions} 
-              onSelect={handleRestaurantSelect} // EZ INDÍTJA A HANGOT
+              onSelect={handleRestaurantSelect} // EZ INDÍTJA A HANGOT (API #1)
               selectedValue={selectedRestaurantId}
             />
         </div>
@@ -196,7 +229,7 @@ const Home: React.FC = () => {
           <RestaurantPage
             restaurant={selectedRestaurant}
             reviews={reviews}
-            onSubmitReview={handleReviewSubmit}
+            onSubmitReview={handleReviewSubmit} // EZ HÍVJA MEG A NOTIFICATION API-T (API #2)
           />
         ) : (
           <p className={styles.placeholder}>

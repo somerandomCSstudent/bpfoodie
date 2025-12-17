@@ -1,13 +1,12 @@
 import React, { useState } from 'react';
 import { useAuth } from '../../contexts/AuthContext';
-// Szükség esetén importálhatsz stílusokat
-
+// A simple registration form component
 const RegisterForm: React.FC<{ onSuccess: () => void }> = ({ onSuccess }) => {
   const { register, isLoading } = useAuth(); // <<< call the useAuth hook to get register and isLoading
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
-
+  // Handles form submission
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError('');
@@ -21,7 +20,7 @@ const RegisterForm: React.FC<{ onSuccess: () => void }> = ({ onSuccess }) => {
       setError(result); 
     }
   };
-
+  // Renders the registration form
   return (
     <form onSubmit={handleSubmit}>
       {error && <p style={{ color: 'red' }}>Error: {error}</p>}

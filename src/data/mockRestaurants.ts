@@ -113,12 +113,12 @@ export const mockRestaurants: IRestaurant[] = [
   },
   {
     id: "12",
-    name: "Kimchi Kimchi",
+    name: "Legendary Incheon",
     description: "Autentikus koreai étterem",
-    address: "Budapest, Ázsia központ 1.",
+    address: "Budapest, András tér 1.",
     rating: 4.3,
     reviewCount: 22,
-    slug: "kimchi-kimchi",
+    slug: "legendary-incheon",
     type: 'East-Asian' 
   },
   {

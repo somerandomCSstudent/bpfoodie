@@ -1,13 +1,13 @@
 import React from 'react';
 import { IRestaurant } from '../../../types/restaurant'; 
 import styles from './RestaurantDetails.module.css';
-/* Component to display detailed information about a restaurant */
+// Component to display detailed information about a restaurant 
 interface RestaurantDetailsProps {
   restaurant: IRestaurant;
   averageRating: number;
   reviewCount: number;
 }
-/* Functional component definition */
+// Functional component definition 
 const RestaurantDetails: React.FC<RestaurantDetailsProps> = ({ restaurant, averageRating, reviewCount }) => {
   
   const renderRating = (rating: number) => {
@@ -18,7 +18,7 @@ const RestaurantDetails: React.FC<RestaurantDetailsProps> = ({ restaurant, avera
     const emptyStars = emptyStar.repeat(5 - Math.round(rating));
     return `${fullStars}${emptyStars} (${reviewCount} reviews)`;
   };
-
+  // Renders the restaurant details component
   return (
     <div className={styles.detailsContainer}>
       <h2>{restaurant.name}</h2>
